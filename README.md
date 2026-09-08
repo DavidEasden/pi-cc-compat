@@ -1,5 +1,7 @@
 # pi-cc-compat
 
+**English** | [简体中文](README.zh-CN.md)
+
 Make the [pi](https://github.com/earendil-works/pi-mono) coding agent talk to Anthropic-compatible gateways (new-api / one-api and other relays that enforce group checks) in the exact request shape of a Claude Code client, so it can pass gateways that only allow "Claude Code clients only".
 
 No pi source modification, no extra daemon process — just a pi extension plus `models.json` headers config.
