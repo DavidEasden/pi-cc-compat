@@ -1,0 +1,8 @@
+# 设备指纹为每台机器本地生成，勿提交
+extension/state/
+**/state/device.txt
+
+# 本地试验痕迹
+*.log
+relay.log
+.DS_Store
