@@ -23,15 +23,30 @@ Authentication still uses your own gateway API key — only the transport shape 
 
 ## Installation
 
+### As a pi package (recommended)
+
 ```bash
-git clone https://github.com/<you>/pi-cc-compat.git
+pi install npm:pi-cc-compat
+# or straight from GitHub (no npm publish needed):
+pi install git:github.com/DavidEasden/pi-compat@v0.1.0
+```
+
+### Manual copy
+
+```bash
+git clone https://github.com/DavidEasden/pi-compat.git
 mkdir -p ~/.pi/agent/extensions/cc-compat
 cp pi-cc-compat/extension/index.ts ~/.pi/agent/extensions/cc-compat/
-# Optional: custom configuration
-cp pi-cc-compat/extension/config.example.json ~/.pi/agent/extensions/cc-compat/config.json
 ```
 
 pi auto-discovers and loads extensions by the `~/.pi/agent/extensions/*/index.ts` convention — no registration needed. The extension only intercepts requests for `claude-*` models and leaves other providers untouched.
+
+### Optional: custom configuration
+
+```bash
+mkdir -p ~/.pi/agent/cc-compat
+cp pi-cc-compat/extension/config.example.json ~/.pi/agent/cc-compat/config.json
+```
 
 ## Configuring models.json
 
@@ -108,7 +123,7 @@ The fingerprint is based on captured CC 2.1.259 traffic, and gateways may tighte
 | `agentIdentity` | `"You are a Claude agent, built on Anthropic's Claude Agent SDK."` | Second system segment identity text |
 | `patchFetch` | `true` | Whether to append `?beta=true` to /v1/messages and sync the `x-claude-code-session-id` header |
 
-`state/device.txt` is the device fingerprint generated on first run; it is git-ignored — never commit it.
+Both `config.json` and `state/device.txt` live in `~/.pi/agent/cc-compat/` (created on first run), so package upgrades never wipe your config or device fingerprint. `state/device.txt` is git-ignored — never commit it.
 
 ## Scope and disclaimer
 

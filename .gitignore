@@ -6,3 +6,6 @@ extension/state/
 *.log
 relay.log
 .DS_Store
+
+# pi 本地运行时文件
+.pi/pi-compact.json

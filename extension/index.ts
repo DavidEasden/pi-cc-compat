@@ -13,7 +13,7 @@
  * 鉴权头（Authorization: Bearer）、UA、X-Stainless-*、anthropic-beta 等由 models.json
  * 的 provider headers 配置，见仓库 README。
  *
- * 可调参数放在同目录 config.json（可选），字段：
+ * 可调参数放在 ~/.pi/agent/cc-compat/config.json（可选），字段：
  * {
  *   "ccVersion":  "2.1.259.9c8",            // billing header 中的 cc_version
  *   "agentIdentity": "You are a Claude agent, built on Anthropic's Claude Agent SDK.",
@@ -22,19 +22,28 @@
  */
 import { randomUUID } from "node:crypto";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { homedir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const DIR = dirname(fileURLToPath(import.meta.url));
-const STATE_DIR = join(DIR, "state");
+// 用户数据目录：config.json 与设备指纹持久化到固定位置（~/.pi/agent/cc-compat/），
+// 包升级/重装不会丢失配置与 device_id。
+const USER_DATA_DIR = join(homedir(), ".pi", "agent", "cc-compat");
+const STATE_DIR = join(USER_DATA_DIR, "state");
 
 // ---- 可选 config.json ----
 type Config = { ccVersion?: string; agentIdentity?: string; patchFetch?: boolean };
 let config: Config = {};
 try {
-	config = JSON.parse(readFileSync(join(DIR, "config.json"), "utf-8")) as Config;
+	config = JSON.parse(readFileSync(join(USER_DATA_DIR, "config.json"), "utf-8")) as Config;
 } catch {
-	/* 无配置文件时使用默认值 */
+	// 向后兼容：手动复制安装时代的包内 config.json 仍生效
+	try {
+		config = JSON.parse(readFileSync(join(DIR, "config.json"), "utf-8")) as Config;
+	} catch {
+		/* 无配置文件时使用默认值 */
+	}
 }
 const CC_VERSION = config.ccVersion ?? "2.1.259.9c8";
 const AGENT_IDENTITY =

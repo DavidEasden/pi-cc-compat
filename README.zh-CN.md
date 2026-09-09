@@ -23,15 +23,30 @@
 
 ## 安装
 
+### 作为 pi 包安装（推荐）
+
 ```bash
-git clone https://github.com/<you>/pi-cc-compat.git
+pi install npm:pi-cc-compat
+# 或直接从 GitHub 安装（无需发布 npm）：
+pi install git:github.com/DavidEasden/pi-compat@v0.1.0
+```
+
+### 手动安装
+
+```bash
+git clone https://github.com/DavidEasden/pi-compat.git
 mkdir -p ~/.pi/agent/extensions/cc-compat
 cp pi-cc-compat/extension/index.ts ~/.pi/agent/extensions/cc-compat/
-# 可选：自定义配置
-cp pi-cc-compat/extension/config.example.json ~/.pi/agent/extensions/cc-compat/config.json
 ```
 
 pi 按 `~/.pi/agent/extensions/*/index.ts` 约定自动发现并加载，无需注册。扩展只拦截 `claude-*` 模型的请求，不影响其他 provider。
+
+### 可选：自定义配置
+
+```bash
+mkdir -p ~/.pi/agent/cc-compat
+cp pi-cc-compat/extension/config.example.json ~/.pi/agent/cc-compat/config.json
+```
 
 ## 配置 models.json
 
@@ -108,7 +123,7 @@ pi -p "say exactly: ok" --model anthropic/claude-sonnet-5
 | `agentIdentity` | `"You are a Claude agent, built on Anthropic's Claude Agent SDK."` | system 第二段身份文本 |
 | `patchFetch` | `true` | 是否为 /v1/messages 追加 `?beta=true` 并同步 `x-claude-code-session-id` 头 |
 
-`state/device.txt` 为首次运行自动生成的设备指纹，加入 `.gitignore`，勿提交。
+`config.json` 与 `state/device.txt` 均位于 `~/.pi/agent/cc-compat/`（首次运行自动创建），包升级不会清除你的配置与设备指纹。`state/device.txt` 加入 `.gitignore`，勿提交。
 
 ## 适用范围与声明
 
