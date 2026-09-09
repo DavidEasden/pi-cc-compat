@@ -1,9 +1,17 @@
 {
   "name": "pi-cc-compat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Make the pi coding agent pass Anthropic-compatible gateways that only allow Claude Code clients",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidEasden/pi-compat.git"
+  },
+  "homepage": "https://github.com/DavidEasden/pi-compat",
+  "bugs": {
+    "url": "https://github.com/DavidEasden/pi-compat/issues"
+  },
   "files": [
     "extension/",
     "tools/",
