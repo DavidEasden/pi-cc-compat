@@ -1,5 +1,6 @@
 {
-	"ccVersion": "2.1.259.9c8",
+	"ccVersion": "",
 	"agentIdentity": "You are a Claude agent, built on Anthropic's Claude Agent SDK.",
+	"cch": "",
 	"patchFetch": true
 }

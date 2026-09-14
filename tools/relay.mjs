@@ -7,6 +7,7 @@
  *
  * 用法：
  *   1. node tools/relay.mjs [listenPort=9996] [upstream=http://localhost:3000]
+ *      （upstream 支持 http:// 与 https://，按协议自动选择客户端）
  *   2. 临时修改 ~/.claude/settings.json 的 env：
  *      "ANTHROPIC_BASE_URL": "http://localhost:<listenPort>"
  *      （注意：必须写 localhost，写 127.0.0.1 会被 Claude Code 区别对待）
@@ -18,10 +19,13 @@
  * 不要用 export ANTHROPIC_BASE_URL 覆盖，改文件才生效。
  */
 import http from "node:http";
+import https from "node:https";
 
 const listenPort = Number(process.argv[2] ?? 9996);
 const upstream = process.argv[3] ?? "http://localhost:3000";
 const upstreamUrl = new URL(upstream);
+// 网关常用 https，按上游协议选择客户端。
+const upstreamClient = upstreamUrl.protocol === "https:" ? https : http;
 
 const server = http.createServer((req, res) => {
 	let body = "";
@@ -51,7 +55,7 @@ const server = http.createServer((req, res) => {
 			method: req.method,
 			headers: { ...req.headers, host: upstreamUrl.host },
 		};
-		const up = http.request(`${upstream}${req.url}`, opts, (ur) => {
+		const up = upstreamClient.request(`${upstream}${req.url}`, opts, (ur) => {
 			res.writeHead(ur.statusCode ?? 502, ur.headers);
 			ur.on("data", (c) => res.write(c));
 			ur.on("end", () => res.end());
