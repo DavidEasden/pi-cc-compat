@@ -1,6 +1,6 @@
 {
   "name": "pi-cc-compat",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Make the pi coding agent pass Anthropic-compatible gateways that only allow Claude Code clients",
   "license": "MIT",
   "type": "module",
@@ -28,6 +28,8 @@
     "gateway"
   ],
   "pi": {
-    "extensions": ["./extension"]
+    "extensions": [
+      "./extension"
+    ]
   }
 }
