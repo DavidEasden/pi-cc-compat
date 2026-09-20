@@ -49,15 +49,15 @@ Claude Code 的 billing header 里还有一段 `cch=`，但**当 `ANTHROPIC_BASE
 ```bash
 pi install npm:pi-cc-compat
 # 或直接从 GitHub 安装（无需发布 npm）：
-pi install git:github.com/DavidEasden/pi-compat@v0.1.0
+pi install git:github.com/DavidEasden/pi-cc-compat@v0.1.3
 ```
 
 ### 手动安装
 
 ```bash
-git clone https://github.com/DavidEasden/pi-compat.git
+git clone https://github.com/DavidEasden/pi-cc-compat.git
 mkdir -p ~/.pi/agent/extensions/cc-compat
-cp pi-compat/extension/index.ts ~/.pi/agent/extensions/cc-compat/
+cp pi-cc-compat/extension/index.ts ~/.pi/agent/extensions/cc-compat/
 ```
 
 pi 按 `~/.pi/agent/extensions/*/index.ts` 约定自动发现并加载，无需注册。扩展只拦截 `claude-*` 模型的请求，不影响其他 provider。
@@ -66,7 +66,7 @@ pi 按 `~/.pi/agent/extensions/*/index.ts` 约定自动发现并加载，无需�
 
 ```bash
 mkdir -p ~/.pi/agent/cc-compat
-cp pi-compat/extension/config.example.json ~/.pi/agent/cc-compat/config.json
+cp pi-cc-compat/extension/config.example.json ~/.pi/agent/cc-compat/config.json
 ```
 
 ## 配置 models.json
